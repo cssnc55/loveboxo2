@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Für dich</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Sehr dezentes, edles Farbschema */
+            --bg-color: #fff5f6;      
+            --accent-color: #e04f5f;  /* Ein modernes, flaches Rot */
+            --text-color: #2d2d2d;    /* Fast Schwarz für hohen Kontrast */
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            text-align: center;
+            padding: 24px;
+        }
+
+        /* Container für den Text */
+        #message-wrapper {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            width: 100%;
+        }
+
+        .message-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Zustand, wenn Text sichtbar ist */
+        .message-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Highlight für "Ich liebe dich" */
+        .prefix {
+            color: var(--accent-color);
+            display: block; /* Macht einen Zeilenumbruch nach "Ich liebe dich," - falls gewünscht */
+            margin-bottom: 0.5rem;
+            font-size: 1.1em;
+        }
+
+        /* Der Button */
+        .action-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(224, 79, 95, 0.2);
+            transition: all 0.2s ease;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(224, 79, 95, 0.3);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(224, 79, 95, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="message-wrapper">
+    <div id="text-placeholder" class="message-text"></div>
+</div>
+
+<button class="action-btn" onclick="generateReason()">
+    Drücke wenn du es brauchst
+</button>
+
+<script>
+    const reasons = [
+        "Weil du meine Motivation bist.",
+        "Weil du für mich da bist.",
+        "Wegen der lustigen Geräusche, die du machst.",
+        "Wegen dem lieblichen Geruch, den du in meinem Zimmer hinterlässt.",
+        "Weil du mich verstehst.",
+        "Weil ich mich bei dir nicht verstellen muss.",
+        "Weil du mich behindert gut umarmst.",
+        "Einfach nur, weil du da bist.",
+        "Weil du zu einer schwierigen Zeit an meiner Seite warst.",
+        "Da unsere Anziehung echt stark ist.",
+        "Wegen deinen süßen Backen.",
+        "Weil du behindert gut küssen kannst.",
+        "Aufgrund deiner Augen.",
+        "Wegen deinem Lächeln.",
+        "Weil du mir behindert gut tust.",
+        "Weil wir uns trotz Meinungsverschiedenheiten immer noch lieben.",
+        "Weil du mir gut tust.",
+        "Weil ich wegen dir geisteskrank gut schlafen kann.",
+        "Wegen der inneren Ruhe, die du mir gibst.",
+        "Wegen deinem Musikgeschmack.",
+        "Wegen diesem Gefühl, wenn ich auf dir liege.",
+        "Weil du so weich bist.",
+        "Weil du so lieb zu mir bist.",
+        "Weil du das bist, was ich brauche.",
+        "Weil du so verrückt bist."
+    ];
+
+    let lastIndex = -1;
+    const textElement = document.getElementById('text-placeholder');
+
+    function generateReason() {
+        // Fade Out
+        textElement.classList.remove('visible');
+
+        setTimeout(() => {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * reasons.length);
+            } while (randomIndex === lastIndex && reasons.length > 1);
+
+            lastIndex = randomIndex;
+
+            // 1. Grund holen
+            let rawReason = reasons[randomIndex];
+
+            // 2. Ersten Buchstaben klein machen (Grammatik-Korrektur)
+            // "Weil..." wird zu "weil..."
+            let lowerCaseReason = rawReason.charAt(0).toLowerCase() + rawReason.slice(1);
+
+            // 3. Zusammenbauen mit HTML für schöne Formatierung
+            // Ich habe ein <span> um das "Ich liebe dich" gelegt, falls du es mal anders färben willst
+            textElement.innerHTML = `<span style="color:var(--accent-color)">Ich liebe dich,</span><br>${lowerCaseReason}`;
+
+            // Fade In
+            textElement.classList.add('visible');
+        }, 200);
+    }
+</script>
+</body>
+</html>
